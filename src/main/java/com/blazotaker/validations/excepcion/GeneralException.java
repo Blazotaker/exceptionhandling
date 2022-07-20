@@ -29,10 +29,20 @@ public class GeneralException extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request)
     {
-        System.out.println();
+        System.out.println(ex.getBindingResult().getFieldErrors());
+        System.out.println(ex.getBindingResult().getGlobalErrors());
+        //ex.getBindingResult().getFieldErrors() parece tener el mismo comportamiento de exception.getFieldErrors
         return ResponseEntity.badRequest().body(new ErrorDto(HttpStatus.BAD_REQUEST.toString(),"Field Error",
                 listValidationError(ex.getFieldErrors())));
 
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleNotFoundException(NotFoundException ex,
+                                                          WebRequest request){
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                "Not found", ex.getLocalizedMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
     }
 
 
@@ -45,7 +55,7 @@ public class GeneralException extends ResponseEntityExceptionHandler {
                     errorMessageDto.setObject(fieldError.getObjectName());
                     errorMessageDto.setRejectedValue(fieldError.getRejectedValue());
                     return errorMessageDto;
-                }).collect(Collectors.toList());
+                }).peek(System.out::println).collect(Collectors.toList());
     }
 
     @ExceptionHandler(Exception.class)
