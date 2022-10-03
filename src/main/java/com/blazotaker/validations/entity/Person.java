@@ -15,6 +15,7 @@ import java.util.UUID;
 @Setter
 public class Person {
 
+    //Validation de hibernate, que se pone @Valid en @PostMapping cuando vas a trabajar con objectos como parametro en el controlador
     @NotNull(message = "no null")
     @NotEmpty(message = "no empty")
 

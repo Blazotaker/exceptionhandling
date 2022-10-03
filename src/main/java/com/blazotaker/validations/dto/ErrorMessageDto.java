@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 //Mensaje de error para los campos
 public class ErrorMessageDto {
-    private String object;
-    private String field;
+    private String object; // objeto
+    private String field; // atributos
     private String message;
     private Object rejectedValue;
 }

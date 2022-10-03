@@ -32,7 +32,7 @@ public class GeneralException extends ResponseEntityExceptionHandler {
         System.out.println(ex.getBindingResult().getFieldErrors());
         System.out.println(ex.getBindingResult().getGlobalErrors());
         //ex.getBindingResult().getFieldErrors() parece tener el mismo comportamiento de exception.getFieldErrors
-        return ResponseEntity.badRequest().body(new ErrorDto(HttpStatus.BAD_REQUEST.toString(),"Field Error",
+        return ResponseEntity.badRequest().body(new ErrorDto(Integer.toString(HttpStatus.BAD_REQUEST.value()),"Field Error",
                 listValidationError(ex.getFieldErrors())));
 
     }
